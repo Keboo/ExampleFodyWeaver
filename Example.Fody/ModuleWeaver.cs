@@ -112,10 +112,13 @@ public class ModuleWeaver
         ILProcessor processor = method.Body.GetILProcessor();
         Instruction current = method.Body.Instructions.First();
 
+        //Create Nop instruction to use as a starting point 
+        //for the rest of our instructions
         Instruction first = Instruction.Create( OpCodes.Nop );
         processor.InsertBefore( current, first );
         current = first;
 
+        //Insert all instructions for debug output after Nop
         foreach ( Instruction instruction in GetInstructions( method ) )
         {
             processor.InsertAfter( current, instruction );

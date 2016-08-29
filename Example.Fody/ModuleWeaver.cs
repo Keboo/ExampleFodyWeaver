@@ -66,23 +66,47 @@ public class ModuleWeaver
     // A copy of the contents of the $(DefineConstants). OPTIONAL
     public List<string> DefineConstants { get; set; }
 
-    private static readonly MethodInfo _stringJoinMethod = typeof( string ).GetMethods().Where( x => x.Name == nameof( string.Join ) ).Single( x =>
+    private static readonly MethodInfo _stringJoinMethod;
+    private static readonly MethodInfo _stringFormatMethod;
+    private static readonly MethodInfo _debugWriteLineMethod;
+
+    static ModuleWeaver()
     {
-        var parameters = x.GetParameters();
-        return parameters.Length == 2 && parameters[0].ParameterType == typeof( string ) &&
-                parameters[1].ParameterType == typeof( object[] );
-    } );
-    private static readonly MethodInfo _stringformatMethod = typeof( string ).GetMethods().Where( x => x.Name == nameof( string.Format ) ).Single( x =>
-    {
-        var parameters = x.GetParameters();
-        return parameters.Length == 2 && parameters[0].ParameterType == typeof( string ) &&
-                parameters[1].ParameterType == typeof( object );
-    } );
-    private static readonly MethodInfo _debugWriteLineMethod = typeof( System.Diagnostics.Debug ).GetMethods().Where( x => x.Name == nameof( System.Diagnostics.Debug.WriteLine ) ).Single( x =>
-    {
-        var parameters = x.GetParameters();
-        return parameters.Length == 1 && parameters[0].ParameterType == typeof( string );
-    } );
+        //Find string.Join(string, object[]) method
+        _stringJoinMethod = typeof( string )
+            .GetMethods()
+            .Where( x => x.Name == nameof( string.Join ) )
+            .Single( x =>
+                {
+                    var parameters = x.GetParameters();
+                    return parameters.Length == 2 &&
+                        parameters[0].ParameterType == typeof( string ) &&
+                        parameters[1].ParameterType == typeof( object[] );
+                } );
+
+        //Find string.Format(string, object) method
+        _stringFormatMethod = typeof( string )
+            .GetMethods()
+            .Where( x => x.Name == nameof( string.Format ) )
+            .Single( x =>
+                {
+                    var parameters = x.GetParameters();
+                    return parameters.Length == 2 &&
+                        parameters[0].ParameterType == typeof( string ) &&
+                        parameters[1].ParameterType == typeof( object );
+                } );
+
+        //Find Debug.WriteLine(string) method
+        _debugWriteLineMethod = typeof( System.Diagnostics.Debug )
+            .GetMethods()
+            .Where( x => x.Name == nameof( System.Diagnostics.Debug.WriteLine ) )
+            .Single( x =>
+                {
+                    var parameters = x.GetParameters();
+                    return parameters.Length == 1 &&
+                        parameters[0].ParameterType == typeof( string );
+                } );
+    }
 
     // Init logging delegates to make testing easier
     public ModuleWeaver()
@@ -145,7 +169,7 @@ public class ModuleWeaver
         }
 
         yield return Instruction.Create( OpCodes.Call, ModuleDefinition.ImportReference( _stringJoinMethod ) );
-        yield return Instruction.Create( OpCodes.Call, ModuleDefinition.ImportReference( _stringformatMethod ) );
+        yield return Instruction.Create( OpCodes.Call, ModuleDefinition.ImportReference( _stringFormatMethod ) );
         yield return Instruction.Create( OpCodes.Call, ModuleDefinition.ImportReference( _debugWriteLineMethod ) );
     }
 

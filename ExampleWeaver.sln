@@ -1,11 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Fody", "Example.Fody\Example.Fody.csproj", "{0C24A3C3-CDD9-4F71-94B4-B2843B9C31F1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyToProcess", "AssemblyToProcess\AssemblyToProcess.csproj", "{2DBF419B-538A-458F-8E4F-A865D1D3C774}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0C24A3C3-CDD9-4F71-94B4-B2843B9C31F1} = {0C24A3C3-CDD9-4F71-94B4-B2843B9C31F1}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

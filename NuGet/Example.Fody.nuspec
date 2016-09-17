@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Example.Fody</id>
+    <version>1.0.0</version>
+    <authors>Me</authors>
+    <owners>Me</owners>
+    <licenseUrl>https://github.com/Keboo/ExampleFodyWeaver/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Keboo/ExampleFodyWeaver</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>An example Fody Weaver that merely embeds a Debug.WriteLine are the beginning of each method.</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>Fody</tags>
+    <dependencies>
+      <dependency id="Fody" version ="[1.29,)"/>
+    </dependencies>
+  </metadata>
+</package>

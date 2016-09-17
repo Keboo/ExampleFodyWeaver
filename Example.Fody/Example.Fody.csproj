@@ -73,5 +73,6 @@
   </Target>-->
   <Target Name="AfterBuild">
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)\packages\Example.Fody.1.0.0" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)\NuGet" />
   </Target>
 </Project>
